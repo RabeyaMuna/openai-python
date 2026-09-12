@@ -555,7 +555,7 @@ class Completions(SyncAPIResource):
         stream_options: Optional[ChatCompletionStreamOptionsParam] | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: ChatCompletionToolChoiceOptionParam | NotGiven = NOT_GIVEN,
-        tools: Iterable[ChatCompletionToolParam] | NotGiven = NOT_GIVEN,
+        tools: Iterable[ToolParam] | NotGiven = NOT_GIVEN,
         top_logprobs: Optional[int] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -1408,7 +1408,7 @@ class Completions(SyncAPIResource):
         stream_options: Optional[ChatCompletionStreamOptionsParam] | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: ChatCompletionToolChoiceOptionParam | NotGiven = NOT_GIVEN,
-        tools: Iterable[ChatCompletionToolParam] | NotGiven = NOT_GIVEN,
+        tools: Iterable[ToolParam] | NotGiven = NOT_GIVEN,
         top_logprobs: Optional[int] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -1448,13 +1448,19 @@ class Completions(SyncAPIResource):
             **(extra_headers or {}),
         }
 
+        # Validate input tools prior to creating the stream manager to ensure they conform to
+        # the canonical ToolParam shape expected by the streaming subsystem.
+        _validate_input_tools(tools)
+
+        transformed_response_format = _type_to_response_format(response_format)
+
         api_request: partial[Stream[ChatCompletionChunk]] = partial(
             self.create,
             messages=messages,
             model=model,
             audio=audio,
             stream=True,
-            response_format=_type_to_response_format(response_format),
+            response_format=transformed_response_format,
             frequency_penalty=frequency_penalty,
             function_call=function_call,
             functions=functions,
@@ -1491,7 +1497,7 @@ class Completions(SyncAPIResource):
         )
         return ChatCompletionStreamManager(
             api_request,
-            response_format=response_format,
+            response_format=transformed_response_format,
             input_tools=tools,
         )
 
@@ -2847,7 +2853,7 @@ class AsyncCompletions(AsyncAPIResource):
         stream_options: Optional[ChatCompletionStreamOptionsParam] | NotGiven = NOT_GIVEN,
         temperature: Optional[float] | NotGiven = NOT_GIVEN,
         tool_choice: ChatCompletionToolChoiceOptionParam | NotGiven = NOT_GIVEN,
-        tools: Iterable[ChatCompletionToolParam] | NotGiven = NOT_GIVEN,
+        tools: Iterable[ToolParam] | NotGiven = NOT_GIVEN,
         top_logprobs: Optional[int] | NotGiven = NOT_GIVEN,
         top_p: Optional[float] | NotGiven = NOT_GIVEN,
         user: str | NotGiven = NOT_GIVEN,
@@ -2889,12 +2895,14 @@ class AsyncCompletions(AsyncAPIResource):
             **(extra_headers or {}),
         }
 
+        transformed_response_format = _type_to_response_format(response_format)
+
         api_request = self.create(
             messages=messages,
             model=model,
             audio=audio,
             stream=True,
-            response_format=_type_to_response_format(response_format),
+            response_format=transformed_response_format,
             frequency_penalty=frequency_penalty,
             function_call=function_call,
             functions=functions,
@@ -2931,7 +2939,7 @@ class AsyncCompletions(AsyncAPIResource):
         )
         return AsyncChatCompletionStreamManager(
             api_request,
-            response_format=response_format,
+            response_format=transformed_response_format,
             input_tools=tools,
         )
 

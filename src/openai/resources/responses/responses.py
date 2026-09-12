@@ -847,9 +847,9 @@ class Responses(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Response,
+            cast_to=ResponseStreamEvent if stream else Response,
             stream=stream or False,
-            stream_cls=Stream[ResponseStreamEvent],
+            stream_cls=Stream[Any],
         )
 
     @overload
@@ -1355,9 +1355,9 @@ class Responses(SyncAPIResource):
                     response_retrieve_params.ResponseRetrieveParams,
                 ),
             ),
-            cast_to=Response,
+            cast_to=ResponseStreamEvent if stream else Response,
             stream=stream or False,
-            stream_cls=Stream[ResponseStreamEvent],
+            stream_cls=Stream[Any],
         )
 
     def delete(
@@ -2230,9 +2230,9 @@ class AsyncResponses(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Response,
+            cast_to=ResponseStreamEvent if stream else Response,
             stream=stream or False,
-            stream_cls=AsyncStream[ResponseStreamEvent],
+            stream_cls=AsyncStream[Any],
         )
 
     @overload
@@ -2742,9 +2742,9 @@ class AsyncResponses(AsyncAPIResource):
                     response_retrieve_params.ResponseRetrieveParams,
                 ),
             ),
-            cast_to=Response,
+            cast_to=ResponseStreamEvent if stream else Response,
             stream=stream or False,
-            stream_cls=AsyncStream[ResponseStreamEvent],
+            stream_cls=AsyncStream[Any],
         )
 
     async def delete(
@@ -2919,12 +2919,12 @@ def _make_tools(tools: Iterable[ParseableToolParam] | NotGiven) -> List[ToolPara
     converted_tools: List[ToolParam] = []
     for tool in tools:
         if tool["type"] != "function":
-            converted_tools.append(tool)
+            converted_tools.append(cast(ToolParam, tool))
             continue
 
         if "function" not in tool:
             # standard Responses API case
-            converted_tools.append(tool)
+            converted_tools.append(cast(ToolParam, tool))
             continue
 
         function = cast(Any, tool)["function"]  # pyright: ignore[reportUnnecessaryCast]
