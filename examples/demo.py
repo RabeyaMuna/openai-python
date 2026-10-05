@@ -1,6 +1,13 @@
 #!/usr/bin/env -S poetry run python
 
+import os
+import sys
+
 from openai import OpenAI
+
+if not os.environ.get("OPENAI_API_KEY"):
+    print("Missing OPENAI_API_KEY")
+    sys.exit(1)
 
 # gets API Key from environment variable OPENAI_API_KEY
 client = OpenAI()
