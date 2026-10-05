@@ -26,7 +26,7 @@ async def main() -> None:
         text_format=MathResponse,
         background=True,
     ) as stream:
-        async for event in stream:
+        async for event in stream:  # type: ResponseStreamEvent
             if event.type == "response.created":
                 id = event.response.id
             if "output_text" in event.type:
@@ -42,7 +42,7 @@ async def main() -> None:
         starting_after=10,
         text_format=MathResponse,
     ) as stream:
-        async for event in stream:
+        async for event in stream:  # type: ResponseStreamEvent
             if "output_text" in event.type:
                 rich.print(event)
 

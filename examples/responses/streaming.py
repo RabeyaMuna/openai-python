@@ -4,6 +4,7 @@ import rich
 from pydantic import BaseModel
 
 from openai import OpenAI
+from openai.lib.streaming.responses import ResponseStreamEvent
 
 
 class Step(BaseModel):
@@ -23,7 +24,7 @@ with client.responses.stream(
     model="gpt-4o-2024-08-06",
     text_format=MathResponse,
 ) as stream:
-    for event in stream:
+    for event in stream:  # type: ResponseStreamEvent
         if "output_text" in event.type:
             rich.print(event)
 

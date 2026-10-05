@@ -156,6 +156,9 @@ from .response_mcp_list_tools_in_progress_event import (
 from .response_reasoning_summary_part_done_event import (
     ResponseReasoningSummaryPartDoneEvent as ResponseReasoningSummaryPartDoneEvent,
 )
+from .response_reasoning_summary_done_event import (
+    ResponseReasoningSummaryDoneEvent as ResponseReasoningSummaryDoneEvent,
+)
 from .response_reasoning_summary_text_done_event import (
     ResponseReasoningSummaryTextDoneEvent as ResponseReasoningSummaryTextDoneEvent,
 )

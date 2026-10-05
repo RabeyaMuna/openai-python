@@ -1,9 +1,15 @@
 #!/usr/bin/env -S poetry run python
 
+import os
+
 from openai import OpenAI
 
+api_key = os.getenv("OPENAI_API_KEY")
+if not api_key:
+    raise RuntimeError("OPENAI_API_KEY must be set to run this example")
+
 # gets API Key from environment variable OPENAI_API_KEY
-client = OpenAI()
+client = OpenAI(api_key=api_key)
 
 # Non-streaming:
 print("----- standard request -----")

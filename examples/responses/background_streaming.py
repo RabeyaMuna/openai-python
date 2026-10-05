@@ -5,6 +5,7 @@ import rich
 from pydantic import BaseModel
 
 from openai import OpenAI
+from openai.lib.streaming.responses import ResponseStreamEvent
 
 
 class Step(BaseModel):
@@ -25,7 +26,7 @@ with client.responses.stream(
     text_format=MathResponse,
     background=True,
 ) as stream:
-    for event in stream:
+    for event in stream:  # type: ResponseStreamEvent
         if event.type == "response.created":
             id = event.response.id
         if "output_text" in event.type:
@@ -41,7 +42,7 @@ with client.responses.stream(
     starting_after=10,
     text_format=MathResponse,
 ) as stream:
-    for event in stream:
+    for event in stream:  # type: ResponseStreamEvent
         if "output_text" in event.type:
             rich.print(event)
 

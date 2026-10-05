@@ -6,6 +6,7 @@ from pydantic import BaseModel
 
 import openai
 from openai import OpenAI
+from openai.lib.streaming.responses import ResponseStreamEvent
 
 
 class Table(str, Enum):
@@ -64,5 +65,5 @@ with client.responses.stream(
         openai.pydantic_function_tool(Query),
     ],
 ) as stream:
-    for event in stream:
+    for event in stream:  # type: ResponseStreamEvent
         rich.print(event)
