@@ -25,6 +25,8 @@ from ....types.responses.parsed_response import (
     ParsedResponseOutputMessage,
     ParsedResponseFunctionToolCall,
 )
+from ....types.responses.response_reasoning_summary_done_event import ResponseReasoningSummaryDoneEvent
+from ....types.responses.response_reasoning_summary_delta_event import ResponseReasoningSummaryDeltaEvent
 
 
 class ResponseStream(Generic[TextFormatT]):

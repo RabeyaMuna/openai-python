@@ -4,6 +4,7 @@ import rich
 from pydantic import BaseModel
 
 from openai import OpenAI
+from openai.types.responses import ResponseStreamEvent
 
 
 class Step(BaseModel):

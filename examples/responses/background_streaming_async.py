@@ -19,7 +19,7 @@ class MathResponse(BaseModel):
 
 async def main() -> None:
     client = AsyncOpenAI()
-    id = None
+    id: str | None = None
     async with client.responses.stream(
         input="solve 8x + 31 = 2",
         model="gpt-4o-2024-08-06",

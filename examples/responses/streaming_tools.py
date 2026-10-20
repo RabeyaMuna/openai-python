@@ -64,5 +64,5 @@ with client.responses.stream(
         openai.pydantic_function_tool(Query),
     ],
 ) as stream:
-    for event in stream:
+    for event in stream:  # type: ignore[reportUnknownVariableType]
         rich.print(event)

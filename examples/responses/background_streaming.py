@@ -1,7 +1,8 @@
 #!/usr/bin/env -S rye run python
-from typing import List
+from typing import List, cast
 
 import rich
+from openai.types.responses import ResponseStreamEvent
 from pydantic import BaseModel
 
 from openai import OpenAI
@@ -25,7 +26,7 @@ with client.responses.stream(
     text_format=MathResponse,
     background=True,
 ) as stream:
-    for event in stream:
+    for event in cast(iter, stream):
         if event.type == "response.created":
             id = event.response.id
         if "output_text" in event.type:
@@ -41,7 +42,7 @@ with client.responses.stream(
     starting_after=10,
     text_format=MathResponse,
 ) as stream:
-    for event in stream:
+    for event in cast(iter, stream):
         if "output_text" in event.type:
             rich.print(event)
 
