@@ -318,7 +318,8 @@ class ResponseStreamState(Generic[TextFormatT]):
                 )
             )
         else:
-            events.append(event)
+            # RawResponseStreamEvent is a subtype of ResponseStreamEvent[TextFormatT] for these remaining types
+            events.append(cast(ResponseStreamEvent[TextFormatT], event))
 
         return events
 

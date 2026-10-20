@@ -3,7 +3,7 @@
 from openai import OpenAI
 
 # gets API Key from environment variable OPENAI_API_KEY
-client = OpenAI()
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # Non-streaming:
 print("----- standard request -----")
