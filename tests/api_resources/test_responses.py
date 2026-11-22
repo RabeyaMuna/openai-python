@@ -12,6 +12,7 @@ from tests.utils import assert_matches_type
 from openai._utils import assert_signatures_in_sync
 from openai.types.responses import (
     Response,
+    ResponseReasoningSummaryDoneEvent,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")

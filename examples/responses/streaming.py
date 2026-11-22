@@ -24,7 +24,7 @@ with client.responses.stream(
     text_format=MathResponse,
 ) as stream:
     for event in stream:
-        if "output_text" in event.type:
+        if event.type == "output_text":
             rich.print(event)
 
 rich.print(stream.get_final_response())

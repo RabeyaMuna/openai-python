@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import inspect
 from types import TracebackType
-from typing import Any, List, Generic, Iterable, Awaitable, cast
+from typing import Any, List, Generic, Iterable, Awaitable, cast, TypeVar
 from typing_extensions import Self, Callable, Iterator, AsyncIterator
 
 from ._types import ParsedResponseSnapshot

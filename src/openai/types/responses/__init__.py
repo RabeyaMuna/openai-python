@@ -207,3 +207,4 @@ from .response_code_interpreter_call_interpreting_event import (
 from .response_computer_tool_call_output_screenshot_param import (
     ResponseComputerToolCallOutputScreenshotParam as ResponseComputerToolCallOutputScreenshotParam,
 )
+from .response_reasoning_summary_done_event import ResponseReasoningSummaryDoneEvent as ResponseReasoningSummaryDoneEvent
